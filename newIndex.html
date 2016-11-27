@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+    <div id="container"></div>
+
+    <script src="lib/build/three.js"></script>
+    <script src="lib/js/controls/OrbitControls.js"></script>
+    <script src="lib/js/loaders/RGBELoader.js"></script>
+    <script src="lib/js/loaders/HDRCubeTextureLoader.js"></script>
+
+    <script src="lib/js/Detector.js"></script>
+    <script src="lib/js/libs/stats.min.js"></script>
+
+    <script src="lib/js/Half.js"></script>
+    <script src="lib/js/Encodings.js"></script>
+    <script src="lib/js/pmrem/PMREMGenerator.js"></script>
+    <script src="lib/js/pmrem/PMREMCubeUVPacker.js"></script>
+    <script src="lib/js/libs/dat.gui.min.js"></script>
+    <script src="lib/TweenLite.min.js"></script>
+
+    <script src="lib/js/postprocessing/EffectComposer.js"></script>
+    <script src="lib/js/postprocessing/RenderPass.js"></script>
+    <script src="lib/js/postprocessing/MaskPass.js"></script>
+    <script src="lib/js/postprocessing/ShaderPass.js"></script>
+    <script src="lib/js/shaders/CopyShader.js"></script>
+    <script src="lib/js/shaders/FXAAShader.js"></script>
+    <script src="lib/js/postprocessing/BloomPass.js"></script>
+    <script src="lib/js/shaders/ConvolutionShader.js"></script>
+    <script src="lib/js/loaders/OBJLoader.js"></script>
+    <script src="lib/js/BlendCharacter.js"></script>
+    <script src="src/Context.js"></script>
+    <script src="src/World.js"></script>
+    <script src="src/Assets.js"></script>
+    <script src="src/Pawn.js"></script>
+    <script src="src/PawnController.js"></script>
+    <script src="src/Event.js"></script>
+    <script src="src/shaders/Fireball.js"></script>
+    
+
+    <script>
+        var container = document.createElement('div');
+        document.body.appendChild(container);
+
+        var context = new GAME.Context(container);
+        context.init();
+        context.animate();
+        
+        var assets = new GAME.Assets();
+        assets.assetsReady = function () {
+            context.create();
+        }
+        assets.load();
+    </script>
+
+</body>
+</html>
