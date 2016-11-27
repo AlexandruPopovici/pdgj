@@ -86,13 +86,16 @@ GAME.Enviroment.prototype = {
     },
 
     update: function (delta) {
-        this.checkIsland();
+        
         this.acc += delta;
         if (this.acc >= 1.0) {
             GAME.Event.RainFire();
             this.acc = 0;
         }
+        if (!GAME.pawn.loaded)
+            return;
 
+        this.checkIsland();
         this.dragon.position.copy(GAME.pawn.model.position);
         var pawnForward = new THREE.Vector3();
         pawnForward.set(
@@ -108,6 +111,7 @@ GAME.Enviroment.prototype = {
     },
 
     checkIsland: function () {
+
         var pawnPos = GAME.pawn.model.position.clone();
         var topLeftVertex = new THREE.Vector3();
         var bottomLeftVertex = new THREE.Vector3();
