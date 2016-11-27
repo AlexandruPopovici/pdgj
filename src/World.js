@@ -86,14 +86,15 @@ GAME.Enviroment.prototype = {
     },
 
     update: function (delta) {
-        
+        if (!GAME.pawn.loaded)
+            return;
+
         this.acc += delta;
         if (this.acc >= 1.0) {
             GAME.Event.RainFire();
             this.acc = 0;
         }
-        if (!GAME.pawn.loaded)
-            return;
+        
 
         this.checkIsland();
         this.dragon.position.copy(GAME.pawn.model.position);
