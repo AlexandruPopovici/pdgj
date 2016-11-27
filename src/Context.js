@@ -1,6 +1,6 @@
 var GAME = { rev: '1' };
 var clock = new THREE.Clock();
-var ccsText;
+var ccsText, dpr;
 
 
 GAME.Context = function (container) {
@@ -78,6 +78,11 @@ GAME.Context.prototype = {
         GAME.renderer.gammaInput = true;
         GAME.renderer.gammaOutput = true;
 
+        dpr = 1;
+        if (window.devicePixelRatio !== undefined) {
+            dpr = window.devicePixelRatio;
+
+        }
         this.stats = new Stats();
         this.container.appendChild(this.stats.dom);
 
@@ -98,21 +103,21 @@ GAME.Context.prototype = {
         GAME.camera.updateProjectionMatrix();
 
         GAME.renderer.setSize(width, height);
-        this.fxaa.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-        this.composer.setSize(window.innerWidth, window.innerHeight);
+        this.fxaa.uniforms['resolution'].value.set(1 / (window.innerWidth * dpr), 1 / (window.innerHeight * dpr));
+        this.composer.setSize(window.innerWidth * dpr, window.innerHeight * dpr);
     },
 
     create: function () {
         var renderScene = new THREE.RenderPass(GAME.scene, GAME.camera);
         // renderScene.clear = true;
         this.fxaa = new THREE.ShaderPass(THREE.FXAAShader);
-        this.fxaa.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+        this.fxaa.uniforms['resolution'].value.set(1 / (window.innerWidth * dpr), 1 / (window.innerHeight * dpr));
         //effectOvercast.uniforms['tMask'].value = GAME.Store['dragon'];
         this.fxaa.renderToScreen = true;
         //var copyShader = new THREE.ShaderPass(THREE.CopyShader);
         //copyShader.renderToScreen = true;
         this.composer = new THREE.EffectComposer(GAME.renderer);
-        this.composer.setSize(window.innerWidth, window.innerHeight);
+        this.composer.setSize(window.innerWidth * dpr, window.innerHeight * dpr);
         this.composer.addPass(renderScene);
         this.composer.addPass(this.fxaa);
         //this.composer.addPass(copyShader);
