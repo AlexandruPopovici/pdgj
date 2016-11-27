@@ -43,9 +43,15 @@ GAME.Assets.prototype = {
                     GAME.Store['terrainTex'] = map;
                     textureLoader.load("assets/extra/explosion.png", function (map) {
                         GAME.Store['explosion'] = map;
-                        if (self.assetsReady) {
-                            self.assetsReady();
-                        }
+                        textureLoader.load("assets/extra/Dragon_top.png", function (map) {
+                            GAME.Store['dragon'] = map;
+                            textureLoader.load("assets/extra/Dragon_top_alpha.png", function (map) {
+                                GAME.Store['dragon_alpha'] = map;
+                                if (self.assetsReady) {
+                                    self.assetsReady();
+                                }
+                            });
+                        });
                     });
                 });
             });

@@ -35,6 +35,7 @@
     <script src="src/PawnController.js"></script>
     <script src="src/Event.js"></script>
     <script src="src/shaders/Fireball.js"></script>
+    <script src="src/shaders/Dragon.js"></script>
     
 
     <script>
@@ -43,11 +44,12 @@
 
         var context = new GAME.Context(container);
         context.init();
-        context.animate();
+        
         
         var assets = new GAME.Assets();
         assets.assetsReady = function () {
             context.create();
+            context.animate();
         }
         assets.load();
     </script>

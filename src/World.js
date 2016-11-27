@@ -10,6 +10,7 @@ GAME.Enviroment = function () {
     this.currentIsland = undefined;
     this.acc = 0;
 
+    this.dragon = undefined;
     this.init();
 }
 
@@ -68,6 +69,16 @@ GAME.Enviroment.prototype = {
         GAME.scene.add(this.islands['W']);
         this.currentIsland = this.islands['C'];
 
+        this.dragon = new THREE.Object3D();
+        var dragonMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: GAME.Store['dragon'], alphaMap: GAME.Store['dragon'] });
+        dragonMaterial.transparent = true;
+        dragonMaterial.blending = THREE.SubtractiveBlending;
+        var dragonMesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000, 32), dragonMaterial);
+        dragonMesh.position.y = 5.;
+        dragonMesh.rotation.x = -Math.PI * 0.5;
+        this.dragon.add(dragonMesh);
+        GAME.scene.add(this.dragon);
+
         GAME.scene.add(new THREE.AmbientLight(0x222222));
 
         
@@ -81,6 +92,19 @@ GAME.Enviroment.prototype = {
             GAME.Event.RainFire();
             this.acc = 0;
         }
+
+        this.dragon.position.copy(GAME.pawn.model.position);
+        var pawnForward = new THREE.Vector3();
+        pawnForward.set(
+            -GAME.pawn.model.matrix.elements[8],
+            -GAME.pawn.model.matrix.elements[9],
+            -GAME.pawn.model.matrix.elements[10]
+        );
+        pawnForward.negate();
+        pawnForward.multiplyScalar(Math.max(1000 * GAME.pawn.controller.speed, 500));
+        this.dragon.position.add(pawnForward);
+        this.dragon.lookAt(GAME.pawn.model.position);
+        this.dragon.rotateY(Math.PI);
     },
 
     checkIsland: function () {
@@ -116,29 +140,4 @@ GAME.Enviroment.prototype = {
             }
         }
     },
-
-    swapIslands: function () {
-        var index = this.currentIsland();
-
-        var topLeftVertex = new THREE.Vector3();
-        var bottomLeftVertex = new THREE.Vector3();
-        var topRightVertex = new THREE.Vector3();
-        var bottomRightVertex = new THREE.Vector3();
-        topLeftVertex.set(this.islands[index].position.x - 1000, this.islands[index].position.y, this.islands[index].position.z + 1000);
-        bottomLeftVertex.set(this.islands[index].position.x - 1000, this.islands[index].position.y, this.islands[index].position.z - 1000);
-        topRightVertex.set(this.islands[index].position.x + 1000, this.islands[index].position.y, this.islands[index].position.z + 1000);
-        bottomRightVertex.set(this.islands[index].position.x + 1000, this.islands[index].position.y, this.islands[index].position.z - 1000);
-
-        topLeftVertex.project(GAME.camera);
-        topRightVertex.project(GAME.camera);
-        bottomLeftVertex.project(GAME.camera);
-        bottomRightVertex.project(GAME.camera);
-
-        if (Math.max(topLeftVertex.y, topRightVertex.y) > -1) {
-            console.log('swap down!');
-        }
-    }
-
-
-
 }

@@ -1,16 +1,14 @@
 var GAME = { rev: '1' };
 var clock = new THREE.Clock();
 var ccsText;
-THREE.BlendCharacter.prototype.setSpeed = function (speed) {
 
-};
 
 GAME.Context = function (container) {
 
     this.container = container;
     this.stats = undefined;
     this.cameraControls = undefined;
-
+    this.composer = undefined;
     this.enviroment = undefined;
     this.pawn = undefined;
 
@@ -82,6 +80,8 @@ GAME.Context.prototype = {
         this.stats = new Stats();
         this.container.appendChild(this.stats.dom);
 
+        
+
         //this.cameraControls = new THREE.OrbitControls(GAME.camera, GAME.renderer.domElement);
         //this.cameraControls.target.set(0, 20, 0);
         //this.cameraControls.update();
@@ -99,7 +99,21 @@ GAME.Context.prototype = {
         GAME.renderer.setSize(width, height);
     },
 
-    create: function(){
+    create: function () {
+        var renderScene = new THREE.RenderPass(GAME.scene, GAME.camera);
+        // renderScene.clear = true;
+        var effectOvercast = new THREE.ShaderPass(GAME.DRAGON);
+        effectOvercast.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
+        effectOvercast.uniforms['tMask'].value = GAME.Store['dragon'];
+        effectOvercast.renderToScreen = true;
+        var copyShader = new THREE.ShaderPass(THREE.CopyShader);
+        copyShader.renderToScreen = true;
+        this.composer = new THREE.EffectComposer(GAME.renderer);
+        this.composer.setSize(window.innerWidth, window.innerHeight);
+        this.composer.addPass(renderScene);
+        this.composer.addPass(effectOvercast);
+        //this.composer.addPass(copyShader);
+
         GAME.enviroment = new GAME.Enviroment();
         GAME.pawn = new GAME.Pawn();
     },
@@ -130,6 +144,7 @@ GAME.Context.prototype = {
 
     render: function() {
         GAME.renderer.toneMappingExposure = Math.pow(0.8, 4.0);
-        GAME.renderer.render(GAME.scene, GAME.camera);
+        //GAME.renderer.render(GAME.scene, GAME.camera);
+        this.composer.render();
     }
 }
