@@ -12,7 +12,7 @@ GAME.Pawn.prototype = {
 
     init: function () {
         this.model = new THREE.BlendCharacter();
-        this.model.load("assets/models/skinned/marine/marine_anims_core.json", this.onLoaded.bind(this));
+        this.model.load("assets/extra/marine_anims_core.json", this.onLoaded.bind(this));
     },
 
     onLoaded: function () {

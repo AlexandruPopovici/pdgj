@@ -102,12 +102,12 @@ GAME.Context.prototype = {
     create: function () {
         var renderScene = new THREE.RenderPass(GAME.scene, GAME.camera);
         // renderScene.clear = true;
-        var effectOvercast = new THREE.ShaderPass(GAME.DRAGON);
+        var effectOvercast = new THREE.ShaderPass(THREE.FXAAShader);
         effectOvercast.uniforms['resolution'].value.set(1 / window.innerWidth, 1 / window.innerHeight);
-        effectOvercast.uniforms['tMask'].value = GAME.Store['dragon'];
+        //effectOvercast.uniforms['tMask'].value = GAME.Store['dragon'];
         effectOvercast.renderToScreen = true;
-        var copyShader = new THREE.ShaderPass(THREE.CopyShader);
-        copyShader.renderToScreen = true;
+        //var copyShader = new THREE.ShaderPass(THREE.CopyShader);
+        //copyShader.renderToScreen = true;
         this.composer = new THREE.EffectComposer(GAME.renderer);
         this.composer.setSize(window.innerWidth, window.innerHeight);
         this.composer.addPass(renderScene);

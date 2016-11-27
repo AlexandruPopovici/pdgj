@@ -17,7 +17,7 @@ GAME.Assets.prototype = {
             ];
         };
 
-        var hdrUrls = genCubeUrls("assets/textures/cube/pisaHDR/", ".hdr");
+        var hdrUrls = genCubeUrls("assets/extra/pisaHDR/", ".hdr");
         var self = this;
         new THREE.HDRCubeTextureLoader().load(THREE.UnsignedByteType, hdrUrls, function (hdrCubeMap) {
 
