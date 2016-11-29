@@ -93,6 +93,7 @@ GAME.Event.RainFire = function () {
         onComplete: function () {
             GAME.scene.remove(marker);
             //GAME.scene.remove(makerEnd);
+            GAME.audio.playFireSound();
             TweenLite.to(fireMesh.scale, 1.0, {
                 x: 0, y: 0, z: 0, onUpdate: function () {
                     material.uniforms['time'].value = .0025 * (Date.now() - start);

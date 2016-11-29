@@ -30,6 +30,7 @@ GAME.scene = undefined;
 GAME.renderer = undefined;
 GAME.pawn = undefined;
 GAME.enviroment = undefined;
+GAME.audio = undefined;
 GAME.distanceRan = {
     _value: 0,
 
@@ -124,6 +125,8 @@ GAME.Context.prototype = {
 
         GAME.enviroment = new GAME.Enviroment();
         GAME.pawn = new GAME.Pawn();
+        GAME.audio = new GAME.Audio();
+        GAME.audio.init();
     },
 
     animate: function() {

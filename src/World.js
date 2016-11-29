@@ -1,4 +1,4 @@
-
+var roarTimer = 0;
 
 GAME.Enviroment = function () {
 
@@ -95,6 +95,11 @@ GAME.Enviroment.prototype = {
             this.acc = 0;
         }
         
+        roarTimer += delta;
+        if (roarTimer >= 30) {
+            GAME.audio.playRoar();
+            roarTimer = 0;
+        }
 
         this.checkIsland();
         this.dragon.position.copy(GAME.pawn.model.position);
